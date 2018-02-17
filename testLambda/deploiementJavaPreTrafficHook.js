@@ -28,9 +28,9 @@ exports.handler = (event, context, callback) => {
     var targetVersion = process.env.CurrentVersion;
     console.log("variable CurrentVersion : " + targetVersion);
     // Le nom du fichier contenant le test a passer (dans le meme repertoire que cette fonction node.js) :
-    var fileTestInput = "./testLambda/test-input.json";
+    var fileTestInput = "testLambda/test-input.json";
     // Le nom du fichier contenant le resultat du test attendu (dans le meme repertoire que cette fonction node.js) :
-    var fileTestExpected = "./testLambda/test-expectedResult.json";
+    var fileTestExpected = "testLambda/test-expectedResult.json";
 
     // Recuperation du test a passer :
     stringTestInput = recupFichier(fileTestInput);
