@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Entering build phase...
+      - echo Build started on `date`
+      - pip install --upgrade awscli
+      - mvn package shade:shade
+      - mv target/deploiment-java-0.*.jar .
+      - unzip deploiment-java-0.*.jar
+      - rm -rf target src buildspec.yml pom.xml deploiment-java-0.*.jar
+      - aws cloudformation package --template deploiment-java-template.yml --kms-key-id $S3_KEY --s3-bucket $S3_BUCKET --output-template deploiment-java-template-export.yml
+artifacts:
+  files:
+    - deploiment-java-template-export.yml

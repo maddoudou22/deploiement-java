@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Description: Test de deploiement depuis Codepipeline
+
+Resources:
+  deploiementJavaFunction:
+    Type: AWS::Serverless::Function
+    FunctionName: deploiement-java-function
+    Properties:
+      Handler: hello.handler.LambdaMethodHandler::handleRequest
+      Runtime: java8
+
+      AutoPublishAlias: dev
+      DeploymentPreference:
+        Type: AllAtOnce
+        Hooks:
+            PreTraffic: !Ref deploiementJavaPreTrafficHook
+
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: post
+
+
+  deploiementJavaPreTrafficHook:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: deploiementJavaPreTrafficHook.handler
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+          - Effect: "Allow"
+            Action:
+              - "codedeploy:PutLifecycleEventHookExecutionStatus"
+            Resource:
+              !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentgroup:${ServerlessDeploymentApplication}/*'
+        - Version: "2012-10-17"
+          Statement:
+          - Effect: "Allow"
+            Action:
+              - "lambda:InvokeFunction"
+            Resource: !Ref deploiementJavaFunction.Version
+      Runtime: nodejs6.10
+      FunctionName: 'CodeDeployHook_deploiement-java_preTrafficHook'
+      DeploymentPreference:
+        Enabled: false
+      Environment:
+        Variables:
+          CurrentVersion: !Ref deploiementJavaFunction.Version
