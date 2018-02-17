@@ -41,6 +41,7 @@ exports.handler = (event, context, callback) => {
         // Invocation de la fonction a tester avec la chaine de test :
         invoquefonctionCible(lambda, targetVersion, stringTestInput, function(responseFromTargetFunction){
             console.log("responseFromTargetFunction : ", responseFromTargetFunction);
+            console.log("stringTestExpected : ", stringTestExpected);
             // Comparaison de la reponse de la fonction avec le resultat de test attendu :
             if (responseFromTargetFunction == stringTestExpected) resultatFinal = 'Succeeded';
             else resultatFinal = 'Failed';
