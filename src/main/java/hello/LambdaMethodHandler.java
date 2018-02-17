@@ -12,7 +12,7 @@ public class LambdaMethodHandler implements RequestHandler<MyLambdaRequest, MyLa
         LambdaLogger log = context.getLogger();
         log.log("Log de Greeting");
 
-        String bienvenue = String.format("Bienvenu %s, %s", request.prenom, request.nom);
+        String bienvenue = String.format("Bienvenue %s, %s", request.prenom, request.nom);
 
         return new MyLambdaResponse(bienvenue);
     }
