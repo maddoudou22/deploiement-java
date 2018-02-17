@@ -29,7 +29,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: deploiementJavaPreTrafficHook.handler
-      CodeUri: testLambda/deploiementJavaPreTrafficHook.js
       Policies:
         - Version: "2012-10-17"
           Statement:
