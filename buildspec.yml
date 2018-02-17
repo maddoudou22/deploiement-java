@@ -9,10 +9,10 @@ phases:
       - mvn package shade:shade
       - ls .
       - ls target/
-      - mv target/deploiment-java-0.*.jar .
-      - unzip deploiment-java-0.*.jar
-      - rm -rf target src buildspec.yml pom.xml deploiment-java-0.*.jar
-      - aws cloudformation package --template deploiment-java-template.yml --kms-key-id $S3_KEY --s3-bucket $S3_BUCKET --output-template deploiment-java-template-export.yml
+      - mv target/deploiement-java-0.*.jar .
+      - unzip deploiement-java-0.*.jar
+      - rm -rf target src buildspec.yml pom.xml deploiement-java-0.*.jar
+      - aws cloudformation package --template deploiement-java-template.yml --kms-key-id $S3_KEY --s3-bucket $S3_BUCKET --output-template deploiement-java-template-export.yml
 artifacts:
   files:
-    - deploiment-java-template-export.yml
+    - deploiement-java-template-export.yml
