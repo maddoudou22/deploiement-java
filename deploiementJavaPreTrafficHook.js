@@ -25,14 +25,8 @@ exports.handler = (event, context, callback) => {
     // Nom de la fonction a tester :
     var targetFunctionName = "javaAPI-AWScodepipeline-l-javaAPIAWScodepipelineDe-14VMCRMEQ6Z39";
     // La version a tester (recuperation de la variable d'environnement passee par le template CFN pour la creation de cette fonction) :
-    var autretest = process.env.autretest;
-    console.log("autretest : " + autretest);
-    var testenvTest = process.env.testenv;
-    console.log("tesenv : " + testenvTest);
-    var targetVersion = process.env.CURRENT_VERSION;
-    console.log("variable CURRENT_VERSION : " + CurrentVersion);
-    var currentname = process.env.CURRENT_NAME;
-    console.log("variable CURRENT_NAME : " + currentname);
+    var targetVersion = process.env.CurrentVersion;
+    console.log("variable CurrentVersion : " + CurrentVersion);
     // Le nom du fichier contenant le test a passer (dans le meme repertoire que cette fonction node.js) :
     var fileTestInput = "./test-input.json";
     // Le nom du fichier contenant le resultat du test attendu (dans le meme repertoire que cette fonction node.js) :
