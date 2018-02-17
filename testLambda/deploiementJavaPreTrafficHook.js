@@ -43,7 +43,7 @@ exports.handler = (event, context, callback) => {
             console.log("responseFromTargetFunction : ", responseFromTargetFunction);
             console.log("stringTestExpected : ", stringTestExpected);
             // Comparaison de la reponse de la fonction avec le resultat de test attendu :
-            if (responseFromTargetFunction == stringTestExpected) resultatFinal = 'Succeeded';
+            if (responseFromTargetFunction.trim() == stringTestExpected.trim()) resultatFinal = 'Succeeded';
             else resultatFinal = 'Failed';
             
             console.log("status retourne a CodeDeploy : " + resultatFinal);
