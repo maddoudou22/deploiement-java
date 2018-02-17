@@ -7,6 +7,8 @@ phases:
       - echo Build started on `date`
       - pip install --upgrade awscli
       - mvn package shade:shade
+      - ls .
+      - ls target/
       - mv target/deploiment-java-0.*.jar .
       - unzip deploiment-java-0.*.jar
       - rm -rf target src buildspec.yml pom.xml deploiment-java-0.*.jar
