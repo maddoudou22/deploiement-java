@@ -70,4 +70,4 @@ Resources:
       - Name: FunctionName
         Value: !Ref deploiementJavaFunction.FunctionName
       - ExecutedVersion: 
-        Value: 4 
+        Value: '4'
