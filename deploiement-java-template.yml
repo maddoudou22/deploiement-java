@@ -67,7 +67,5 @@ Resources:
       Threshold: '10'
       ComparisonOperator: GreaterThanThreshold
       Dimensions:
-      - Name: FunctionName
-        Value: !Ref deploiementJavaFunction.FunctionName
-      - Name: Version
-        Value: '1'
+      - Name: Resource
+        Value: !Ref deploiementJavaFunction.Version
