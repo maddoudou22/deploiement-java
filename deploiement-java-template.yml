@@ -70,4 +70,6 @@ Resources:
       - Name: FunctionName
         Value: !Ref deploiementJavaFunction.FunctionName
       - ExecutedVersion: 
-        Value: '4'
+        Value: "4"
+      - Resource:
+        Value: "deploiement-java-stack-deploiementJavaFunction-GTMAR4NJSAET:dev"
