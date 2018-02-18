@@ -50,3 +50,19 @@ Resources:
       Environment:
         Variables:
           CurrentVersion: !Ref deploiementJavaFunction.Version
+
+  LambdaErrorAlarm:
+    Type: 'AWS::CloudWatch::Alarm'
+    Properties:
+#      AlarmName: "deploiement-java-testNouvelleVersion"
+#      AlarmDescription: "Alerte sur le nombre d'erreurs remontees par la nouvelle version deployee"
+      MetricName: Errors
+      Namespace: AWS/Lambda
+      Statistic: Sum
+      Period: '60'
+      EvaluationPeriods: '1'
+      Threshold: '10'
+      ComparisonOperator: GreaterThanThreshold
+      Dimensions:
+      - Name: FunctionName
+        Value: !Ref deploiementJavaFunction.Version
