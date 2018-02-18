@@ -69,3 +69,5 @@ Resources:
       Dimensions:
       - Name: FunctionName
         Value: !Ref deploiementJavaFunction.FunctionName
+      - Name: Version
+        Value: '4'
