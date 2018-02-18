@@ -14,8 +14,8 @@ Resources:
       AutoPublishAlias: dev
       DeploymentPreference:
         Type: Canary10Percent5Minutes
-#        Alarms:
-#         - !Ref LambdaErrorAlarm
+        Alarms:
+         - !Ref LambdaErrorAlarm
         Hooks:
             PreTraffic: !Ref deploiementJavaPreTrafficHook
 
