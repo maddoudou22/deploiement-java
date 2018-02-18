@@ -61,10 +61,13 @@ Resources:
       MetricName: Errors
       Namespace: AWS/Lambda
       Statistic: Sum
+      Unit: Count
       Period: '60'
       EvaluationPeriods: '1'
       Threshold: '10'
       ComparisonOperator: GreaterThanThreshold
       Dimensions:
       - Name: FunctionName
-        Value: !Ref deploiementJavaFunction.Version
+        Value: !Ref deploiementJavaFunction.FunctionName
+      - ExecutedVersion: 
+        Value: 4 
