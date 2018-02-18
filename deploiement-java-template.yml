@@ -56,6 +56,14 @@ Resources:
     Properties:
 #      AlarmName: "deploiement-java-testNouvelleVersion"
 #      AlarmDescription: "Alerte sur le nombre d'erreurs remontees par la nouvelle version deployee"
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+          - Effect: "Allow"
+            Action:
+              - "cloudwatch:PutMetricAlarm"
+            Resource:
+              - "*"
       MetricName: Errors
       Namespace: AWS/Lambda
       Statistic: Sum
