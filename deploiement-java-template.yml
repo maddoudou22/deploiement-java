@@ -13,7 +13,7 @@ Resources:
 
       AutoPublishAlias: dev
       DeploymentPreference:
-        Type: LambdaCanary10Percent5Min
+        Type: Canary10Percent5Min
         Hooks:
             PreTraffic: !Ref deploiementJavaPreTrafficHook
 
