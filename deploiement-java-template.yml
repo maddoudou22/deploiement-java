@@ -13,7 +13,7 @@ Resources:
 
       AutoPublishAlias: dev
       DeploymentPreference:
-        Type: Canary10Percent5Min
+        Type: Canary10Percent5Minutes
         Hooks:
             PreTraffic: !Ref deploiementJavaPreTrafficHook
 
