@@ -91,5 +91,5 @@ Resources:
       Threshold: '10'
       ComparisonOperator: GreaterThanThreshold
       Dimensions:
-      - Name: Resource
-        Value: !Ref deploiementJavaFunction.Alias
+      - Name: FunctionName
+        Value: "TempName"
