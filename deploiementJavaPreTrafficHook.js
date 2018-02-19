@@ -35,7 +35,10 @@ exports.handler = (event, context, callback) => {
       console.log("variable CurrentVersion : " + targetVersion);
       // Nom de la fonction a tester :
       var targetFunctionName = targetVersion.substring(47,targetVersion.length-2);
-      console.log("variable targetFunctionName : " + itargetFunctionName);
+      console.log("variable targetFunctionName : " + targetFunctionName);
+      // Le nom de l'alarme Cloudwatch associee a la fonction :
+      var cloudformationAlarm = process.env.cloudformationAlarm;
+      console.log("variable cloudformationAlarm : " + cloudformationAlarm);
       // Le nom du fichier contenant le test a passer (dans le meme repertoire que cette fonction node.js) :
       var fileTestInput = process.env.fileTestInput;
       console.log("variable fileTestInput : " + fileTestInput);

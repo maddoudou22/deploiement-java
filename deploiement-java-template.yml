@@ -76,6 +76,7 @@ Resources:
           aliasName: !Ref aliasName
           fileTestInput: !Ref fileTestInput
           fileTestExpected: !Ref fileTestExpected
+          cloudformationAlarm: !Ref LambdaErrorAlarm
 
   LambdaErrorAlarm:
     Type: 'AWS::CloudWatch::Alarm'
