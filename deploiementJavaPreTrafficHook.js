@@ -17,20 +17,31 @@ exports.handler = (event, context, callback) => {
     
     // Preparation des variables pour le test :
     var lambda = new AWS.Lambda({region: 'eu-west-1', apiVersion: '2015-03-31'});
+    //var cloudwatch = new AWS.CloudWatch(aws);
+    var cloudwatch = new AWS.CloudWatch({region: 'eu-west-1', apiVersion: '2010-08-01'});
     var targetFunctionArn;
     var responseFromTargetFunction;
     var stringTestInput;
     var stringTestExpected;
     var resultatFinal;
-    // Nom de la fonction a tester :
-    var targetFunctionName = "javaAPI-AWScodepipeline-l-javaAPIAWScodepipelineDe-14VMCRMEQ6Z39";
-    // La version a tester (recuperation de la variable d'environnement passee par le template CFN pour la creation de cette fonction) :
-    var targetVersion = process.env.CurrentVersion;
-    console.log("variable CurrentVersion : " + targetVersion);
-    // Le nom du fichier contenant le test a passer (dans le meme repertoire que cette fonction node.js) :
-    var fileTestInput = "test-input.json";
-    // Le nom du fichier contenant le resultat du test attendu (dans le meme repertoire que cette fonction node.js) :
-    var fileTestExpected = "test-expectedResult.json";
+    
+    // Recuperation des variables d'environnement passees par le template CFN pour la creation de cette fonction): :
+      // Nom de la fonction a tester :
+      var targetFunctionName = process.env.FunctionName;
+      console.log("variable targetFunctionName : " + targetFunctionName);
+      // Nom de l'alias pointant sur la fonction a tester :
+      var aliasName = process.env.aliasName;
+      console.log("variable aliasName : " + aliasName);
+      console.log("Test Function + alias : " + targetFunctionName + ':' + aliasName);
+      // ARN de la fonction avec la version a tester :
+      var targetVersion = process.env.CurrentVersion;
+      console.log("variable CurrentVersion : " + targetVersion);
+      // Le nom du fichier contenant le test a passer (dans le meme repertoire que cette fonction node.js) :
+      var fileTestInput = process.env.fileTestInput;
+      console.log("variable fileTestInput : " + fileTestInput);
+      // Le nom du fichier contenant le resultat du test attendu (dans le meme repertoire que cette fonction node.js) :
+      var fileTestExpected = process.env.fileTestExpected;
+      console.log("variable fileTestExpected : " + fileTestExpected);
 
     // Recuperation du test a passer :
     stringTestInput = recupFichier(fileTestInput);
@@ -55,19 +66,24 @@ exports.handler = (event, context, callback) => {
                 status: resultatFinal // status can be 'Succeeded' or 'Failed'
             };
             
-            // Pass AWS CodeDeploy the prepared validation test results.
-            codedeploy.putLifecycleEventHookExecutionStatus(params, function(err, data) {
-                if (err) {
-		        	// Validation failed.
-		        	console.log('Validation test failed');
-		        	console.log(err);
-		        	console.log(data);
-                    callback('Validation test failed');
-                } else {
-		        	// Validation succeeded.
-		        	console.log('Validation test succeeded');
-                    callback(null, 'Validation test succeeded');
-                }
+            
+            creeAlarmeCloudwatch(cloudwatch, targetFunctionName, aliasName, function(responseAlarmCreation){
+                console.log("verdict de la creation d'alarme : " + responseAlarmCreation);
+
+                // Pass AWS CodeDeploy the prepared validation test results.
+                codedeploy.putLifecycleEventHookExecutionStatus(params, function(err, data) {
+                    if (err) {
+		        	    // Validation failed.
+		        	    console.log('Validation test failed');
+		        	    console.log(err);
+		        	    console.log(data);
+                        callback('Validation test failed');
+                    } else {
+		        	    // Validation succeeded.
+		        	    console.log('Validation test succeeded');
+                        callback(null, 'Validation test succeeded');
+                    }
+                });
             });
         });
 };
@@ -94,5 +110,42 @@ function invoquefonctionCible(lambda, targetFunctionArn, stringTestInput, callba
          else {
             callback(data.Payload);
          }
+    });
+}
+
+function creeAlarmeCloudwatch(cloudwatch, FunctionName, aliasName, callback) {
+    console.log("time to create CloudWatch alarm !");
+    
+    var pullParams = {
+      AlarmName: 'alarmFromNodeJScode',
+      ComparisonOperator: 'GreaterThanOrEqualToThreshold',
+      EvaluationPeriods: '1',
+      MetricName: 'Errors',
+      Namespace: 'AWS/Lambda',
+      Period: '60',
+      Threshold: '10',
+      Statistic: 'Sum',
+      Dimensions: [
+        {
+            Name: 'FunctionName',
+            Value: FunctionName
+        },
+        {
+            Name: 'Resource',
+            Value: FunctionName + ':' + aliasName,
+        },
+        {
+            Name: 'ExecutedVersion',
+            Value: '1',
+        }
+      ]
+    };
+    
+    cloudwatch.putMetricAlarm(pullParams, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else {
+            console.log(data);           // successful response
+            //callback(data.Payload);
+        }
     });
 }

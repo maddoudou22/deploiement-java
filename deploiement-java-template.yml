@@ -3,17 +3,38 @@ Transform: AWS::Serverless-2016-10-31
 
 Description: Test de deploiement depuis Codepipeline
 
+Parameters:
+  aliasName:
+    Description: "The name of the alias pointing on the last working version of the Lambda function"
+    Type: 'String'
+    Default: "dev"
+
+  deploymentType:
+    Description: "Modalite de deploiement pour la fonction"
+    Type: 'String'
+    Default: "Canary10Percent5Minutes"
+
+  fileTestInput:
+    Description: "Fichier contenant le corps de la requete passee a la fonction Lambda pour son test"
+    Type: 'String'
+    Default: "test-input.json"
+
+  fileTestExpected:
+    Description: "Fichier contenant la chaine de ccaracteres attendue pour valider le test"
+    Type: 'String'
+    Default: "test-expectedResult.json"
+
+
 Resources:
   deploiementJavaFunction:
     Type: AWS::Serverless::Function
-    FunctionName: deploiement-java-function
     Properties:
       Handler: hello.handler.LambdaMethodHandler::handleRequest
       Runtime: java8
 
-      AutoPublishAlias: dev
+      AutoPublishAlias: !Ref: aliasName
       DeploymentPreference:
-        Type: Canary10Percent5Minutes
+        Type: !Ref deploymentType
         Alarms:
          - !Ref LambdaErrorAlarm
         Hooks:
@@ -52,6 +73,10 @@ Resources:
       Environment:
         Variables:
           CurrentVersion: !Ref deploiementJavaFunction.Version
+          FunctionName: !Ref deploiementJavaFunction.FunctionName
+          aliasName: !Ref aliasName
+          fileTestInput: !Ref fileTestInput
+          fileTestExpected: !Ref fileTestExpected
 
   LambdaErrorAlarm:
     Type: 'AWS::CloudWatch::Alarm'
@@ -68,4 +93,4 @@ Resources:
       ComparisonOperator: GreaterThanThreshold
       Dimensions:
       - Name: Resource
-        Value: !Ref deploiementJavaFunction.Version
+        Value: !Ref deploiementJavaFunction.Alias
