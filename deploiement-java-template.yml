@@ -66,6 +66,12 @@ Resources:
             Action:
               - "lambda:InvokeFunction"
             Resource: !Ref deploiementJavaFunction.Version
+        - Version: "2012-10-17"
+          Statement:
+          - Effect: "Allow"
+            Action:
+              - "cloudwatch:PutMetricAlarm"
+            Resource: "*"
       Runtime: nodejs6.10
       FunctionName: 'CodeDeployHook_deploiement-java_preTrafficHook'
       DeploymentPreference:

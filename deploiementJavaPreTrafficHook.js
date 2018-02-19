@@ -29,7 +29,6 @@ exports.handler = (event, context, callback) => {
       // Nom de l'alias pointant sur la fonction a tester :
       var aliasName = process.env.aliasName;
       console.log("variable aliasName : " + aliasName);
-      console.log("Test Function + alias : " + targetFunctionName + ':' + aliasName);
       // ARN de la fonction avec la version a tester :
       var targetVersion = process.env.CurrentVersion;
       console.log("variable CurrentVersion : " + targetVersion);
@@ -70,7 +69,7 @@ exports.handler = (event, context, callback) => {
             };
             
             
-            creeAlarmeCloudwatch(cloudwatch, targetFunctionName, aliasName, function(responseAlarmCreation){
+            creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, targetFunctionName, aliasName, function(responseAlarmCreation){
                 console.log("verdict de la creation d'alarme : " + responseAlarmCreation);
 
                 // Pass AWS CodeDeploy the prepared validation test results.
@@ -116,11 +115,11 @@ function invoquefonctionCible(lambda, targetFunctionArn, stringTestInput, callba
     });
 }
 
-function creeAlarmeCloudwatch(cloudwatch, FunctionName, aliasName, callback) {
+function creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, FunctionName, aliasName, callback) {
     console.log("time to create CloudWatch alarm !");
     
     var pullParams = {
-      AlarmName: 'alarmFromNodeJScode',
+      AlarmName: cloudformationAlarm,
       ComparisonOperator: 'GreaterThanOrEqualToThreshold',
       EvaluationPeriods: '1',
       MetricName: 'Errors',
