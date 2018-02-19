@@ -73,7 +73,6 @@ Resources:
       Environment:
         Variables:
           CurrentVersion: !Ref deploiementJavaFunction.Version
-          FunctionName: !Ref deploiementJavaFunction.FunctionName
           aliasName: !Ref aliasName
           fileTestInput: !Ref fileTestInput
           fileTestExpected: !Ref fileTestExpected

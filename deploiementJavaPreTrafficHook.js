@@ -26,9 +26,6 @@ exports.handler = (event, context, callback) => {
     var resultatFinal;
     
     // Recuperation des variables d'environnement passees par le template CFN pour la creation de cette fonction): :
-      // Nom de la fonction a tester :
-      var targetFunctionName = process.env.FunctionName;
-      console.log("variable targetFunctionName : " + targetFunctionName);
       // Nom de l'alias pointant sur la fonction a tester :
       var aliasName = process.env.aliasName;
       console.log("variable aliasName : " + aliasName);
@@ -36,6 +33,9 @@ exports.handler = (event, context, callback) => {
       // ARN de la fonction avec la version a tester :
       var targetVersion = process.env.CurrentVersion;
       console.log("variable CurrentVersion : " + targetVersion);
+      // Nom de la fonction a tester :
+      var targetFunctionName = targetVersion.substring(47,targetVersion.length-2);
+      console.log("variable targetFunctionName : " + itargetFunctionName);
       // Le nom du fichier contenant le test a passer (dans le meme repertoire que cette fonction node.js) :
       var fileTestInput = process.env.fileTestInput;
       console.log("variable fileTestInput : " + fileTestInput);
