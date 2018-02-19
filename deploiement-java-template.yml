@@ -32,7 +32,7 @@ Resources:
       Handler: hello.handler.LambdaMethodHandler::handleRequest
       Runtime: java8
 
-      AutoPublishAlias: !Ref: aliasName
+      AutoPublishAlias: !Ref aliasName
       DeploymentPreference:
         Type: !Ref deploymentType
         Alarms:
