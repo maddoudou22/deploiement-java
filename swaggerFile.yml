@@ -1,0 +1,31 @@
+---
+swagger: 2.0
+basePath: /Prod
+info:
+  title: deploiement-java-api
+schemes:
+- https
+paths:
+  /:
+    x-amazon-apigateway-any-method:
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: 200
+        # NOTE: ${LambdaFunction} must match the Lambda resourcename
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:962109799108:function:deploiement-java-stack-deploiementJavaFunction-2CQEML6YB3TP:dev/invocations
+
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws
+definitions:
+  Empty:
+    type: object
+title: Empty Schema

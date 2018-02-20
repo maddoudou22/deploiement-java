@@ -41,11 +41,18 @@ Resources:
             PreTraffic: !Ref deploiementJavaPreTrafficHook
 
       Events:
-        GetEvent:
+        PostApiEvent:
           Type: Api
           Properties:
+            RestApiId: !Ref ApiGatewayApi
             Path: /
-            Method: post
+            Method: ANY
+
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      DefinitionUri: swaggerFile.yml
 
 
   deploiementJavaPreTrafficHook:
