@@ -34,8 +34,7 @@ Resources:
       DefinitionBody:
             swagger: 2.0
             info:
-              title:
-                Ref: deploiement-java-api
+              title: "deploiement-java-api"
             basePath: /Prod
             schemes:
             - https
