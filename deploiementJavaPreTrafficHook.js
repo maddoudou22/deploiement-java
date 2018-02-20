@@ -127,7 +127,7 @@ function creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, FunctionName, ali
       MetricName: 'Errors',
       Namespace: 'AWS/Lambda',
       Period: '60',
-      Threshold: '10',
+      Threshold: '5',
       Statistic: 'Sum',
       Dimensions: [
         {
