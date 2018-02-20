@@ -35,8 +35,8 @@ Resources:
       AutoPublishAlias: !Ref aliasName
       DeploymentPreference:
         Type: !Ref deploymentType
-        Alarms:
-         - !Ref LambdaErrorAlarm
+#        Alarms:
+#         - !Ref LambdaErrorAlarm
         Hooks:
             PreTraffic: !Ref deploiementJavaPreTrafficHook
 
