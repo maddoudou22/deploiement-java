@@ -59,20 +59,20 @@ exports.handler = (event, context, callback) => {
             if (responseFromTargetFunction.trim() == stringTestExpected.trim()) resultatFinal = 'Succeeded';
             else resultatFinal = 'Failed';
             
-            console.log("status retourne a CodeDeploy : " + resultatFinal);
-            // Prepare the validation test results with the deploymentId and
-            // the lifecycleEventHookExecutionId for AWS CodeDeploy.
-            var params = {
-                    deploymentId: deploymentId,
-                lifecycleEventHookExecutionId: lifecycleEventHookExecutionId,
-                status: resultatFinal // status can be 'Succeeded' or 'Failed'
-            };
-            
-            
-            //creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, targetFunctionName, aliasName, function(responseAlarmCreation){
-              //  console.log("verdict de la creation d'alarme : " + responseAlarmCreation);
+            creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, targetFunctionName, aliasName, function(responseAlarmCreation){
+                //  console.log("verdict de la creation d'alarme : " + responseAlarmCreation);
 
+
+                // Prepare the validation test results with the deploymentId and
+                // the lifecycleEventHookExecutionId for AWS CodeDeploy.
+                var params = {
+                        deploymentId: deploymentId,
+                    lifecycleEventHookExecutionId: lifecycleEventHookExecutionId,
+                    status: resultatFinal // status can be 'Succeeded' or 'Failed'
+                };
+            
                 // Pass AWS CodeDeploy the prepared validation test results.
+                console.log("status retourne a CodeDeploy : " + resultatFinal);
                 codedeploy.putLifecycleEventHookExecutionStatus(params, function(err, data) {
                     if (err) {
 		        	    // Validation failed.
@@ -86,7 +86,7 @@ exports.handler = (event, context, callback) => {
                         callback(null, 'Validation test succeeded');
                     }
                 });
-           // });
+            });
         });
 };
 
