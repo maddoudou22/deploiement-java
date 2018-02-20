@@ -2,7 +2,7 @@
 swagger: 2.0
 basePath: /Prod
 info:
-  title: deploiement-java-api
+  title: "deploiement-java-api"
 schemes:
 - https
 paths:
@@ -19,13 +19,12 @@ paths:
         responses:
           default:
             statusCode: 200
-        # NOTE: ${LambdaFunction} must match the Lambda resourcename
         uri:
-          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${deploiementJavaFunction.Arn}/invocations"
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${deploiementJavaFunction.Arn}/invocations
         passthroughBehavior: when_no_match
         httpMethod: POST
         type: aws
 definitions:
   Empty:
     type: object
-title: Empty Schema
+    title: Empty Schema
