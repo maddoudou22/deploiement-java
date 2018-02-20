@@ -20,8 +20,8 @@ paths:
           default:
             statusCode: 200
         # NOTE: ${LambdaFunction} must match the Lambda resourcename
-        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:962109799108:function:deploiement-java-stack-deploiementJavaFunction-2CQEML6YB3TP:dev/invocations
-
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${deploiementJavaFunction.Arn}/invocations"
         passthroughBehavior: when_no_match
         httpMethod: POST
         type: aws
