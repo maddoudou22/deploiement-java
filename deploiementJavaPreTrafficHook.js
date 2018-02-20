@@ -35,6 +35,9 @@ exports.handler = (event, context, callback) => {
       // Nom de la fonction a tester :
       var targetFunctionName = targetVersion.substring(47,targetVersion.length-2);
       console.log("variable targetFunctionName : " + targetFunctionName);
+      // Le numero de version a tester
+      var versionToTest = targetVersion.substring(targetVersion.length-1);
+
       // Le nom de l'alarme Cloudwatch associee a la fonction :
       var cloudformationAlarm = process.env.cloudformationAlarm;
       console.log("variable cloudformationAlarm : " + cloudformationAlarm);
@@ -44,12 +47,10 @@ exports.handler = (event, context, callback) => {
       // Le nom du fichier contenant le resultat du test attendu (dans le meme repertoire que cette fonction node.js) :
       var fileTestExpected = process.env.fileTestExpected;
       console.log("variable fileTestExpected : " + fileTestExpected);
-
-    // Recuperation du test a passer :
-    stringTestInput = recupFichier(fileTestInput);
-    
-    // Recuperation du resultat de test attendu :
-    stringTestExpected = recupFichier(fileTestExpected);
+      // Recuperation du test a passer :
+      stringTestInput = recupFichier(fileTestInput);
+      // Recuperation du resultat de test attendu :
+      stringTestExpected = recupFichier(fileTestExpected);
     
         // Invocation de la fonction a tester avec la chaine de test :
         invoquefonctionCible(lambda, targetVersion, stringTestInput, function(responseFromTargetFunction){
@@ -59,7 +60,7 @@ exports.handler = (event, context, callback) => {
             if (responseFromTargetFunction.trim() == stringTestExpected.trim()) resultatFinal = 'Succeeded';
             else resultatFinal = 'Failed';
             
-            creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, targetFunctionName, aliasName, function(responseAlarmCreation){
+            creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, targetFunctionName, aliasName, versionToTest, function(responseAlarmCreation){
                   console.log("verdict de la creation d'alarme : " + responseAlarmCreation);
                   console.log("Reponse envoyee a CodeDeploy : " + resultatFinal);
 
@@ -116,7 +117,7 @@ function invoquefonctionCible(lambda, targetFunctionArn, stringTestInput, callba
     });
 }
 
-function creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, FunctionName, aliasName, callback) {
+function creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, FunctionName, aliasName, versionToTest, callback) {
     console.log("time to create CloudWatch alarm !");
     
     var pullParams = {
@@ -139,7 +140,7 @@ function creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, FunctionName, ali
         },
         {
             Name: 'ExecutedVersion',
-            Value: '1',
+            Value: versionToTest,
         }
       ]
     };
