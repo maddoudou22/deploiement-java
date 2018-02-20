@@ -69,8 +69,8 @@ exports.handler = (event, context, callback) => {
             };
             
             
-            creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, targetFunctionName, aliasName, function(responseAlarmCreation){
-                console.log("verdict de la creation d'alarme : " + responseAlarmCreation);
+            //creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, targetFunctionName, aliasName, function(responseAlarmCreation){
+              //  console.log("verdict de la creation d'alarme : " + responseAlarmCreation);
 
                 // Pass AWS CodeDeploy the prepared validation test results.
                 codedeploy.putLifecycleEventHookExecutionStatus(params, function(err, data) {
@@ -86,7 +86,7 @@ exports.handler = (event, context, callback) => {
                         callback(null, 'Validation test succeeded');
                     }
                 });
-            });
+           // });
         });
 };
 
