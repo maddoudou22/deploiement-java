@@ -60,7 +60,8 @@ exports.handler = (event, context, callback) => {
             else resultatFinal = 'Failed';
             
             creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, targetFunctionName, aliasName, function(responseAlarmCreation){
-                //  console.log("verdict de la creation d'alarme : " + responseAlarmCreation);
+                  console.log("verdict de la creation d'alarme : " + responseAlarmCreation);
+                  console.log("Reponse envoyee a CodeDeploy : " + resultatFinal);
 
 
                 // Prepare the validation test results with the deploymentId and
@@ -147,7 +148,7 @@ function creeAlarmeCloudwatch(cloudwatch, cloudformationAlarm, FunctionName, ali
         if (err) console.log(err, err.stack); // an error occurred
         else {
             console.log(data);           // successful response
-            //callback(data.Payload);
+            callback(data.Payload);
         }
     });
 }
