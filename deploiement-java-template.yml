@@ -26,55 +26,6 @@ Parameters:
 
 
 Resources:
-
-  ApiGatewayLambdaInvokePermission:
-    Type: "AWS::Lambda::Permission"
-    Properties:
-      FunctionName:
-        Fn::GetAtt:
-          - "deploiementJavaFunction"
-          - "Arn"
-      Action: "lambda:InvokeFunction"
-      Principal: "apigateway.amazonaws.com"
-      SourceArn: !Sub |-
-        arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*
-
-  ApiGatewayApi:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: Prod
-      DefinitionBody:
-            swagger: 2.0
-            info:
-              title: "deploiement-java-api"
-            basePath: /Prod
-            schemes:
-            - https
-            paths:
-              "/":
-                x-amazon-apigateway-any-method:
-                  produces:
-                  - application/json
-                  responses:
-                    '200':
-                      description: 200 response
-                      schema:
-                        $ref: "#/definitions/Empty"
-                  x-amazon-apigateway-integration:
-                    responses:
-                      default:
-                        statusCode: 200
-                    uri:
-                      Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${deploiementJavaFunction.Arn}/invocations
-                    passthroughBehavior: when_no_match
-                    httpMethod: POST
-                    type: aws
-            definitions:
-              Empty:
-                type: object
-                title: Empty Schema
-
-
   deploiementJavaFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -96,6 +47,13 @@ Resources:
             RestApiId: !Ref ApiGatewayApi
             Path: /
             Method: ANY
+
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      DefinitionUri: swaggerFile.yml
+
 
   deploiementJavaPreTrafficHook:
     Type: AWS::Serverless::Function
