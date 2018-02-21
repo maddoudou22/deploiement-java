@@ -6,7 +6,7 @@ info:
 schemes:
 - https
 paths:
-  /:
+  "/":
     x-amazon-apigateway-any-method:
       produces:
       - application/json
