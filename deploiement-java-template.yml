@@ -26,6 +26,18 @@ Parameters:
 
 Resources:
 
+  ApiGatewayInvokeLambdaPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      FunctionName:
+        Fn::GetAtt:
+          - "deploiementJavaFunction"
+          - "Arn"
+      Action: "lambda:InvokeFunction"
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub |-
+        arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*
+
   ApiGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
