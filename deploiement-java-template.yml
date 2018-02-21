@@ -53,6 +53,8 @@ Resources:
     Properties:
       StageName: Prod
       DefinitionUri: swaggerFile.yml
+      Variables:
+        LambdaFunctionName: !Ref deploiementJavaFunction
 
 
   deploiementJavaPreTrafficHook:
