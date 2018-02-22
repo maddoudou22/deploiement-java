@@ -44,6 +44,7 @@ Resources:
     Properties:
       StageName: Prod
       DefinitionBody:
+# ------------------- spec Swagger -------------------
             swagger: 2.0
             info:
               title: "deploiement-java-api"
@@ -73,6 +74,7 @@ Resources:
               Empty:
                 type: object
                 title: Empty Schema
+# ------------------- spec Swagger -------------------
 
 
   deploiementJavaFunction:
