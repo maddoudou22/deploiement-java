@@ -12,7 +12,7 @@ Parameters:
   deploymentType:
     Description: "Modalite de deploiement pour la fonction"
     Type: 'String'
-    Default: "Canary10Percent10Minutes"
+    Default: "Canary10Percent5Minutes"
 
   fileTestInput:
     Description: "Fichier contenant le corps de la requete passee a la fonction Lambda pour son test"
